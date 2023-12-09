@@ -1,0 +1,21 @@
+version: '3.7'
+ 
+services:
+  item-db:  # Service untuk database MongoDB
+    image: mongo:3  # Menggunakan image MongoDB versi 3 dari Docker Hub
+    restart: always  # Restart policy: Selalu restart jika terhenti
+    ports:
+      - "27017:27017" 
+    volumes:
+      - app-db:/data/db  # Memakai volume bernama app-db untuk menyimpan data
+ 
+  item-app:  # Service untuk aplikasi item-app
+    image: nurulnur126/item-app:v1  # username image item-app yang digunakan di Docker Hub
+    restart: always  # Restart policy: Selalu restart jika terhenti
+    ports:
+      - "80:8080"  # Melakukan port mapping dari port 80 di host ke port 8080 di container
+    depends_on:
+      - item-db  # Memastikan item-db berjalan sebelum item-app
+ 
+volumes:
+  app-db:  # Volume bernama app-db untuk database MongoDB
